@@ -24,8 +24,14 @@ actual abstract class Endpoint(rootPath: String) {
 
     protected fun HttpRequestBuilder.setPath(path: String? = null, query: List<Pair<String, String?>> = listOf()) {
         url {
-            val queryString = query.formUrlEncode()
-            val url = "$apiPath${path ?: ""}${if (queryString.isNotEmpty()) "?$queryString" else ""}"
+            var url = apiPath
+
+            path?.let { url += it }
+
+            if (query.isNotEmpty()) {
+                url += "?${query.formUrlEncode()}"
+            }
+
             encodedPath = url
         }
     }

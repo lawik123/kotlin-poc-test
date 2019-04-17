@@ -40,8 +40,8 @@ suspend fun main() {
     }
 
     try {
-        val id = api.create(PersonDTO(null, "lawik", 24))
-        println(id)
+        val generatedId = api.create(PersonDTO(null, "lawik", 24))
+        println("Generated id: $generatedId")
     } catch (e: Exception) {
         when (e) {
             is BadResponseStatusException -> println(e.statusCode)
