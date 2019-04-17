@@ -1,17 +1,12 @@
-package nl.lawik.poc.multiplatform.endpoint
+package nl.lawik.poc.multiplatform
 
 import io.ktor.client.HttpClient
 import io.ktor.client.features.BadResponseStatusException
-import io.ktor.client.features.defaultRequest
-import io.ktor.client.features.json.JsonFeature
 import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.host
-import io.ktor.client.request.port
 import io.ktor.client.request.request
 import io.ktor.client.response.HttpResponse
 import io.ktor.client.response.readText
 import io.ktor.http.ContentType
-import io.ktor.http.HttpMethod
 import io.ktor.http.contentType
 import io.ktor.http.isSuccess
 import kotlinx.io.core.use
@@ -19,24 +14,29 @@ import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.list
 import kotlinx.serialization.serializer
-import nl.lawik.poc.multiplatform.ResultsList
-import nl.lawik.poc.multiplatform.ResultsListSerializer
 
 /**
- * Helper function for performing HTTP requests where the expected JSON body is a top-level array.
+ * Helper function for performing HTTP requests where the expected JSON body is a top-level array
+ * which will be deserialized to a [List] of type [T].
+ *
+ * Request method is GET by default.
  */
 suspend inline fun <reified T : Any> HttpClient.list(noinline block: HttpRequestBuilder.() -> Unit): List<T> =
     customSerializerRequest(T::class.serializer().list, block)
 
 /**
  * Helper function for performing HTTP requests where the expected JSON body can be deserialized to [ResultsList]
+ * with [ResultsList.results] being of type [T].
+ *
+ * Request method is GET by default.
  */
 suspend inline fun <reified T : Any> HttpClient.resultsList(noinline block: HttpRequestBuilder.() -> Unit): ResultsList<T> =
     customSerializerRequest(ResultsListSerializer(T::class.serializer()), block)
 
-
 /**
- * Helper function for performing HTTP requests where its body will be deserialized using the provided [serializer  ]
+ * Helper function for performing HTTP requests where its body will be deserialized using the provided [serializer].
+ *
+ * Request method is GET by default.
  */
 suspend fun <T : Any> HttpClient.customSerializerRequest(
     serializer: KSerializer<T>,
@@ -53,6 +53,10 @@ suspend fun <T : Any> HttpClient.customSerializerRequest(
     }
 }
 
+/**
+ * Helper function for setting the content type of the HTTP request to `application/json`,
+ * and the body of the HTTP request to the serialized [body].
+ */
 fun HttpRequestBuilder.json(body: Any) {
     this.body = body
     this.contentType(ContentType.Application.Json)
