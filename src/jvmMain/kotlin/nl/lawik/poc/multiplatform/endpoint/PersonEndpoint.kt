@@ -1,13 +1,12 @@
 package nl.lawik.poc.multiplatform.endpoint
 
 import nl.lawik.poc.multiplatform.ResultsList
-import nl.lawik.poc.multiplatform.Status
 import nl.lawik.poc.multiplatform.dao.generic.GenericDaoImpl
 import nl.lawik.poc.multiplatform.dto.PersonDTO
 import nl.lawik.poc.multiplatform.entity.Person
 import nl.lawik.poc.multiplatform.entity.entity
+import nl.lawik.poc.multiplatform.jaxrs.Status
 import nl.lawik.poc.multiplatform.util.openAndCloseSession
-import org.apache.http.HttpStatus
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -39,13 +38,10 @@ actual class PersonEndpoint : Endpoint() {
 
     @POST
     @Status(201)
-    actual suspend fun create(personDTO: PersonDTO): Long {
-        if (personDTO.id != null) throw WebApplicationException(422)
-
-        return openAndCloseSession {
-            val genericDaoImpl = GenericDaoImpl<Person, Long>(Person::class.java, it)
-            genericDaoImpl.save(personDTO.entity)
-        }
+    actual suspend fun create(personDTO: PersonDTO): Long = openAndCloseSession {
+        val genericDaoImpl = GenericDaoImpl<Person, Long>(Person::class.java, it)
+        genericDaoImpl.save(personDTO.entity)
     }
+
 }
 

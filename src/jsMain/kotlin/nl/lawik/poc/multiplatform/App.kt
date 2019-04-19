@@ -1,5 +1,6 @@
 package nl.lawik.poc.multiplatform
 
+import io.konform.validation.Invalid
 import io.ktor.client.features.BadResponseStatusException
 import kotlinx.serialization.ImplicitReflectionSerializer
 import nl.lawik.poc.multiplatform.dto.PersonDTO
@@ -50,12 +51,11 @@ suspend fun main() {
     }
 
     try {
-        api.create(PersonDTO(11, "lawik", 24)) // this will cause a (in this case intended) BadResponseException
+        api.create(PersonDTO(11, "lawik", 0)) // this will cause a (in this case intended) BadResponseException
     } catch (e: Exception) {
         when (e) {
             is BadResponseStatusException -> println(e.statusCode)
             else -> console.log(e)
         }
     }
-
 }
