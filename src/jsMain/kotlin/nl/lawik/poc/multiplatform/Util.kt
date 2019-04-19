@@ -31,7 +31,7 @@ suspend inline fun <reified T : Any> HttpClient.list(noinline block: HttpRequest
  * Request method is GET by default.
  */
 suspend inline fun <reified T : Any> HttpClient.resultsList(noinline block: HttpRequestBuilder.() -> Unit): ResultsList<T> =
-    customSerializerRequest(ResultsListSerializer(T::class.serializer()), block)
+    customSerializerRequest(ResultsList.serializer(T::class.serializer()), block)
 
 /**
  * Helper function for performing HTTP requests where its body will be deserialized using the provided [serializer].
