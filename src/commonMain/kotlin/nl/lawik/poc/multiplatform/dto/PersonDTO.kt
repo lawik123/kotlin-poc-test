@@ -1,6 +1,7 @@
 package nl.lawik.poc.multiplatform.dto
 
 import io.konform.validation.Validation
+import io.konform.validation.jsonschema.maximum
 import io.konform.validation.jsonschema.minLength
 import io.konform.validation.jsonschema.minimum
 import kotlinx.serialization.Serializable
@@ -9,6 +10,7 @@ import nl.lawik.poc.multiplatform.dto.PersonDTOValidator.createValidator
 import nl.lawik.poc.multiplatform.dto.PersonDTOValidator.updateValidator
 import nl.lawik.poc.multiplatform.dto.PersonDTOValidator.validator
 import nl.lawik.poc.multiplatform.isNull
+import nl.lawik.poc.multiplatform.notBlank
 
 @Serializable
 data class PersonDTO(val id: Long? = null, val name: String, var age: Int) :
@@ -18,13 +20,15 @@ data class PersonDTO(val id: Long? = null, val name: String, var age: Int) :
     override fun validateUpdate() = updateValidator(this)
 }
 
-private object PersonDTOValidator{
+object PersonDTOValidator {
     val validator = Validation<PersonDTO> {
         PersonDTO::age{
             minimum(0)
+            maximum(200)
         }
         PersonDTO::name{
-            minLength(1)
+            notBlank()
+            minLength(2)
         }
     }
     val createValidator = Validation<PersonDTO> {
