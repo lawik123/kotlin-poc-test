@@ -4,7 +4,7 @@ import nl.lawik.poc.multiplatform.ResultsList
 import nl.lawik.poc.multiplatform.dto.PersonDTO
 
 
-internal object PersonPaths {
+object PersonPaths {
     const val ROOT = "/person"
     const val GET_BY_ID = "/{id}"
     const val RESULTS_LIST_PATH = "/resultslist"

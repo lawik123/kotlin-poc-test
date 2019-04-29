@@ -38,5 +38,4 @@ class ContinuationMessageBodyReader : MessageBodyReader<Continuation<*>> {
     ): Continuation<*>? {
         return null
     }
-
 }
