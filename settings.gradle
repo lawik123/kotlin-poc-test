@@ -15,5 +15,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'kotlin-poc-multiplatform'
+rootProject.name = 'kotlin-poc-test'
 
