@@ -21,7 +21,7 @@
         <property name="format_sql">false</property>
 
         <!--Mapping-->
-        <mapping class="nl.lawik.poc.multiplatform.entity.Person"/>
+        <mapping class="nl.lawik.poc.test.entity.Person"/>
 
     </session-factory>
 </hibernate-configuration>
