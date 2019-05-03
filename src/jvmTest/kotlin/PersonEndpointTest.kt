@@ -18,13 +18,13 @@ import org.junit.jupiter.api.Assertions.assertEquals
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PersonEndpointTest {
-    init {
-        RestAssured.port = 8081
-    }
-
     private lateinit var persons: Map<Long, Person>
     private val server = Server(PersonEndpoint::class)
     private val session: Session = mockk()
+
+    init {
+        RestAssured.port = 8081
+    }
 
     @BeforeEach
     fun init() {
